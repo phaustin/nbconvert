@@ -1,4 +1,6 @@
 from converter import Converter
+from decorators import DocInherit
+from utils.utils import highlight, indent, remove_ansi
 
 class ConverterMarkdown(Converter):
     extension = 'md'

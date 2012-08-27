@@ -26,11 +26,6 @@ import copy
 from shutil import rmtree
 from markdown import markdown
 
-inkscape = 'inkscape'
-if sys.platform == 'darwin':
-    inkscape = '/Applications/Inkscape.app/Contents/Resources/bin/inkscape'
-    if not os.path.exists(inkscape):
-        inkscape = None
 
 # From IPython
 from IPython.external import argparse
@@ -46,8 +41,8 @@ from lexers import IPythonLexer
 from converters.converterrst import ConverterRST
 from converters.converterhtml import ConverterHTML
 from converters.converterlatex import ConverterLaTeX
-from converters.converter import Converter
-from converters.converter import Converter
+from converters.convertermarkdown import ConverterMarkdown
+from converters.converterpy import ConverterPy
 from converters.converter import Converter
 from converters.converter import Converter
 
@@ -59,7 +54,7 @@ from converters.converter import Converter
 
 
 
-known_formats = "rst (default), html, quick-html, latex, markdown, py"
+known_formats = "rst (default), html, latex, markdown, py"
 
 def main(infile, format='rst'):
     """Convert a notebook to html in one step"""
