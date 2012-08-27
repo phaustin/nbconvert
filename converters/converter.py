@@ -1,5 +1,8 @@
 import os
+import io
 from IPython.nbformat import current as nbformat
+from utils.utils import remove_fake_files_url
+
 
 class ConversionException(Exception):
     pass

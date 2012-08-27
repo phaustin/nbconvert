@@ -1,4 +1,6 @@
 from __future__ import print_function
+from lexers import IPythonLexer
+import re
 #-----------------------------------------------------------------------------
 # Utility functions
 #-----------------------------------------------------------------------------
@@ -309,4 +311,18 @@ def cell_to_lines(cell):
     split_lines_cell(cell)
     s = writes_cell(cell).strip()
     return s.split('\n')
+
+def highlight(src, lang='ipython'):
+    """Return a syntax-highlighted version of the input source.
+    """
+    from pygments import highlight
+    from pygments.lexers import get_lexer_by_name
+    from pygments.formatters import HtmlFormatter
+    
+    if lang == 'ipython':
+        lexer = IPythonLexer()
+    else:
+        lexer = get_lexer_by_name(lang, stripall=True)
+        
+    return highlight(src, lexer, HtmlFormatter())
 

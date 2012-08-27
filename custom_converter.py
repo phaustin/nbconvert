@@ -10,8 +10,6 @@ class CustomNotebookConverter(nb.ConverterNotebook):
 
     def render_code(self, cell):
 
-        captured_outputs = ['text', 'html', 'svg', 'latex', 'javascript']
-
         cell = copy.deepcopy(cell)
         cell['input'] = ''
 

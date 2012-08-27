@@ -65,4 +65,7 @@ class DocInherit(object):
         func.__doc__ = source.__doc__
         return func
 
+def DocInherit(f):
+    return f
+
 doc_inherit = DocInherit

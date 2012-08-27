@@ -2,6 +2,8 @@ from converter import Converter
 from decorators import DocInherit
 import os
 from IPython.utils import path
+from markdown import markdown
+from utils.utils import highlight, coalesce_streams, ansi2html
 import io
 #------------------------
 # decorators
