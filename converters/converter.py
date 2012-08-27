@@ -44,9 +44,8 @@ class Converter(object):
         """
         return getattr(self, 'render_display_format_' + format, self.render_unknown_display)
 
-    def convert(self, cell_separator='\n'):
-        lines = []
-        lines.extend(self.optional_header())
+    def body(self, cell_separator='\n'):
+        """return the converted body without the optionnal headers and footers"""
         converted_cells = []
         for worksheet in self.nb.worksheets:
             for cell in worksheet.cells:
@@ -56,7 +55,12 @@ class Converter(object):
                     remove_fake_files_url(cell)
                 converted_cells.append('\n'.join(conv_fn(cell)))
         cell_lines = cell_separator.join(converted_cells).split('\n')
-        lines.extend(cell_lines)
+        return u'\n'.join(cell_lines)
+
+    def convert(self, cell_separator='\n'):
+        lines = []
+        lines.extend(self.optional_header())
+        lines.extend(self.body(cell_separator=cell_separator))
         lines.extend(self.optional_footer())
         return u'\n'.join(lines)
 
