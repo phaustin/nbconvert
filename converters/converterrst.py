@@ -86,18 +86,5 @@ class ConverterRST(Converter):
 
 
 
-def highlight(src, lang='ipython'):
-    """Return a syntax-highlighted version of the input source.
-    """
-    from pygments import highlight
-    from pygments.lexers import get_lexer_by_name
-    from pygments.formatters import HtmlFormatter
-    
-    if lang == 'ipython':
-        lexer = IPythonLexer()
-    else:
-        lexer = get_lexer_by_name(lang, stripall=True)
-        
-    return highlight(src, lexer, HtmlFormatter())
 
 

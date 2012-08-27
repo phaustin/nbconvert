@@ -45,7 +45,7 @@ from lexers import IPythonLexer
 
 from converters.converterrst import ConverterRST
 from converters.converterhtml import ConverterHTML
-from converters.converter import Converter
+from converters.converterlatex import ConverterLaTeX
 from converters.converter import Converter
 from converters.converter import Converter
 from converters.converter import Converter

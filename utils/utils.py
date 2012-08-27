@@ -1,6 +1,7 @@
 from __future__ import print_function
 from lexers import IPythonLexer
 import re
+import subprocess
 #-----------------------------------------------------------------------------
 # Utility functions
 #-----------------------------------------------------------------------------

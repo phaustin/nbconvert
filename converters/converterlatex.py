@@ -1,4 +1,18 @@
+import os
+import sys
+import subprocess
+
 from converter import Converter
+from decorators import DocInherit
+
+from utils.utils import markdown2latex, remove_ansi
+
+
+inkscape = 'inkscape'
+if sys.platform == 'darwin':
+    inkscape = '/Applications/Inkscape.app/Contents/Resources/bin/inkscape'
+    if not os.path.exists(inkscape):
+        inkscape = None
 
 class ConverterLaTeX(Converter):
     """Converts a notebook to a .tex file suitable for pdflatex.
