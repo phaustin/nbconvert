@@ -1,4 +1,5 @@
-from nbconvert import ConverterRST, main
+from nbconvert import main
+from converters.converterrst import ConverterRST
 import nose.tools as nt
 
 import os
@@ -65,5 +66,5 @@ def test_main_html():
     """
     Test main entry point
     """
-    main(fname, format='html')
+    main(fname, fmt='html')
     nt.assert_true(os.path.exists('tests/test.html'))

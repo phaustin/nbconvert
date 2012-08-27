@@ -1,4 +1,4 @@
-from nbconvert import ConverterNotebook
+from converters.converternotebook import ConverterNotebook
 import nose.tools as nt
 import os, json
 

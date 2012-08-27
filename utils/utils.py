@@ -1,7 +1,13 @@
 from __future__ import print_function
 from lexers import IPythonLexer
 from IPython.utils.text import indent
+from IPython.utils import py3compat
+from IPython.nbformat.v3.nbjson import BytesEncoder
 import re
+import sys, os 
+import copy
+import json
+from markdown import markdown
 import subprocess
 #-----------------------------------------------------------------------------
 # Utility functions
@@ -77,7 +83,7 @@ def ansi2html(txt):
     while m:
         cmds = m.groups()[0].split(';')
         closer = '</span>' if opened else ''
-        opened = len(cmds) > 1 or cmds[0] != '0'*len(cmds[0]);
+        opened = len(cmds) > 1 or cmds[0] != '0'*len(cmds[0])
         classes = []
         for cmd in cmds:
             if cmd in ansi_colormap:

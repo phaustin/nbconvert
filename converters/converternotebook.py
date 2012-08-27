@@ -1,4 +1,8 @@
 from converter import Converter
+from decorators import DocInherit
+from shutil import rmtree
+from utils.utils import cell_to_lines
+import json
 
 class ConverterNotebook(Converter):
     """
@@ -21,7 +25,7 @@ class ConverterNotebook(Converter):
         rmtree(self.files_dir)
 
     def convert(self):
-        return json.dumps(json.loads(Converter.convert(self, ',')), indent=1, sort_keys=True)
+        return unicode(json.dumps(json.loads(Converter.convert(self, ',')), indent=1, sort_keys=True))
 
     def optional_header(self):
         s = \
