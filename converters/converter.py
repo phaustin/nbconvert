@@ -1,4 +1,6 @@
 import os
+import pprint
+import logging
 import io
 import codecs
 from IPython.nbformat import current as nbformat
