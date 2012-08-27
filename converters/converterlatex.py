@@ -2,7 +2,7 @@ import os
 import sys
 import subprocess
 
-from converter import Converter
+from converters.converter import Converter
 from decorators import DocInherit
 
 from utils.utils import markdown2latex, remove_ansi

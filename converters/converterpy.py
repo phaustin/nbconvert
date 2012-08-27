@@ -1,4 +1,4 @@
-from converter import Converter
+from converters.converter import Converter
 from decorators import DocInherit
 from utils.utils import indent, remove_ansi
 
