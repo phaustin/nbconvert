@@ -43,6 +43,14 @@ from IPython.utils import path, py3compat
 from decorators import DocInherit
 from lexers import IPythonLexer
 
+from converters.converterrst import ConverterRST
+from converters.converterhtml import ConverterHTML
+from converters.converter import Converter
+from converters.converter import Converter
+from converters.converter import Converter
+from converters.converter import Converter
+from converters.converter import Converter
+
 
 #-----------------------------------------------------------------------------
 # Class declarations

@@ -1,3 +1,43 @@
+from converter import Converter
+from decorators import DocInherit
+import os
+from IPython.utils import path
+import io
+#------------------------
+# decorators
+#------------------------
+
+def text_cell(f):
+    """wrap text cells in appropriate divs"""
+    def wrapped(self, cell):
+        rendered = f(self, cell)
+        classes = "text_cell_render border-box-sizing rendered_html"
+        lines = ['<div class="%s">' % classes] + rendered + ['</div>']
+        return lines
+    return wrapped
+
+def output_container(f):
+    """add a prompt-area next to an output"""
+    def wrapped(self, output):
+        rendered = f(self, output)
+        if not rendered:
+            # empty output
+            return []
+        lines = []
+        lines.append('<div class="hbox output_area">')
+        lines.extend(self._out_prompt(output))
+        classes = "output_subarea output_%s" % output.output_type
+        if output.output_type == 'stream':
+            classes += " output_%s" % output.stream
+        lines.append('<div class="%s">' % classes)
+        lines.extend(rendered)
+        lines.append('</div>') # subarea
+        lines.append('</div>') # output_area
+        
+        return lines
+    
+    return wrapped
+
 
 class ConverterHTML(Converter):
     extension = 'html'

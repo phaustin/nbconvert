@@ -1,3 +1,4 @@
+from converter import Converter
 
 class ConverterLaTeX(Converter):
     """Converts a notebook to a .tex file suitable for pdflatex.

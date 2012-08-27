@@ -1,3 +1,5 @@
+from converter import Converter
+from decorators import DocInherit
 
 class ConverterRST(Converter):
     extension = 'rst'

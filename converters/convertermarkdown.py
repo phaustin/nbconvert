@@ -1,3 +1,4 @@
+from converter import Converter
 
 class ConverterMarkdown(Converter):
     extension = 'md'

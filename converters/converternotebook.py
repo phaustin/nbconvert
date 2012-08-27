@@ -1,3 +1,4 @@
+from converter import Converter
 
 class ConverterNotebook(Converter):
     """

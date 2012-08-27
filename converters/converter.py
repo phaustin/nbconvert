@@ -1,3 +1,6 @@
+import os
+from IPython.nbformat import current as nbformat
+
 class ConversionException(Exception):
     pass
 
