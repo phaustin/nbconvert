@@ -35,9 +35,9 @@ def output_container(f):
         lines.extend(rendered)
         lines.append('</div>') # subarea
         lines.append('</div>') # output_area
-        
+
         return lines
-    
+
     return wrapped
 
 
@@ -50,7 +50,7 @@ class ConverterHTML(Converter):
         for attr, value in attrs.iteritems():
             attr_s += "%s=%s" % (attr, value)
         return ['<%s %s>' % (tag, attr_s), src, '</%s>' % tag]
-    
+
     def _ansi_colored(self, text):
         return ['<pre>%s</pre>' % ansi2html(text)]
 
@@ -69,9 +69,9 @@ class ConverterHTML(Converter):
 
     def optional_header(self):
         from pygments.formatters import HtmlFormatter
-        
+
         header = ['<html>', '<head>']
-        
+
         static = os.path.join(path.get_ipython_package_dir(),
         'frontend', 'html', 'notebook', 'static',
         )
@@ -89,21 +89,21 @@ class ConverterHTML(Converter):
             os.path.join(here, 'css', 'static_html.css'),
         ]:
             header.extend(self._stylesheet(sheet))
-        
+
         # pygments css
         pygments_css = HtmlFormatter().get_style_defs('.highlight')
         header.extend(['<meta charset="UTF-8">'])
         header.extend(self.in_tag('style', pygments_css, dict(type='text/css')))
-        
+
         # TODO: this should be allowed to use local mathjax:
         header.extend(self.in_tag('script', '', {'type':'text/javascript',
             'src': '"https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"',
         }))
         with io.open(os.path.join(here, 'js', 'initmathjax.js'), encoding='utf-8') as f:
             header.extend(self.in_tag('script', f.read(), {'type': 'text/javascript'}))
-        
+
         header.extend(['</head>', '<body>'])
-        
+
         return header
 
     def optional_footer(self):
@@ -119,14 +119,14 @@ class ConverterHTML(Converter):
     def render_heading(self, cell):
         marker = cell.level
         return [u'<h{1}>\n  {0}\n</h{1}>'.format(cell.source, marker)]
-    
+
     @DocInherit
     def render_code(self, cell):
         if not cell.input:
             return []
-        
+
         lines = ['<div class="cell border-box-sizing code_cell vbox">']
-        
+
         lines.append('<div class="input hbox">')
         n = cell.prompt_number if getattr(cell, 'prompt_number', None) is not None else '&nbsp;'
         lines.append('<div class="prompt input_prompt">In [%s]:</div>' % n)
@@ -134,20 +134,20 @@ class ConverterHTML(Converter):
         lines.append(highlight(cell.input))
         lines.append('</div>') # input_area
         lines.append('</div>') # input
-        
+
         if cell.outputs:
             lines.append('<div class="vbox output_wrapper">')
             lines.append('<div class="output vbox">')
-            
+
             for output in coalesce_streams(cell.outputs):
                 conv_fn = self.dispatch(output.output_type)
                 lines.extend(conv_fn(output))
-            
+
             lines.append('</div>') # output
             lines.append('</div>') # output_wrapper
-        
+
         lines.append('</div>') # cell
-        
+
         return lines
 
     @DocInherit
@@ -177,15 +177,15 @@ class ConverterHTML(Converter):
     @output_container
     def render_stream(self, output):
         return self._ansi_colored(output.text)
-    
+
 
     @DocInherit
     @output_container
     def render_pyerr(self, output):
         # Note: a traceback is a *list* of frames.
         # lines = []
-        
-        # stb = 
+
+        # stb =
         return self._ansi_colored('\n'.join(output.traceback))
 
     @DocInherit

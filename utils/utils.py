@@ -4,7 +4,7 @@ from IPython.utils.text import indent
 from IPython.utils import py3compat
 from IPython.nbformat.v3.nbjson import BytesEncoder
 import re
-import sys, os 
+import sys, os
 import copy
 import json
 from markdown import markdown
@@ -38,9 +38,9 @@ def remove_ansi(src):
 
 def ansi2html(txt):
     """Render ANSI colors as HTML colors
-    
+
     This is equivalent to util.fixConsole in utils.js
-    
+
     Parameters
     ----------
     txt : string
@@ -49,7 +49,7 @@ def ansi2html(txt):
     -------
     string
     """
-    
+
     ansi_colormap = {
         '30': 'ansiblack',
         '31': 'ansired',
@@ -61,7 +61,7 @@ def ansi2html(txt):
         '37': 'ansigrey',
         '01': 'ansibold',
     }
-    
+
     # do ampersand first
     txt = txt.replace('&', '&amp;')
     html_escapes = {
@@ -73,7 +73,7 @@ def ansi2html(txt):
     }
     for c, escape in html_escapes.iteritems():
         txt = txt.replace(c, escape)
-    
+
     ansi_re = re.compile('\x1b' + r'\[([\dA-Fa-f;]*?)m')
     m = ansi_re.search(txt)
     opened = False
@@ -88,15 +88,15 @@ def ansi2html(txt):
         for cmd in cmds:
             if cmd in ansi_colormap:
                 classes.append(ansi_colormap.get(cmd))
-        
+
         if classes:
             opener = '<span class="%s">' % (' '.join(classes))
         else:
             opener = ''
         txt = re.sub(ansi_re, closer + opener, txt, 1)
-        
+
         m = ansi_re.search(txt)
-    
+
     if opened:
         txt += '</span>'
     return txt
@@ -165,9 +165,9 @@ def rst_directive(directive, text=''):
 
 def coalesce_streams(outputs):
     """merge consecutive sequences of stream output into single stream
-    
+
     to prevent extra newlines inserted at flush calls
-    
+
     TODO: handle \r deletion
     """
     new_outputs = []
@@ -181,7 +181,7 @@ def coalesce_streams(outputs):
             last.text += output.text
         else:
             new_outputs.append(output)
-    
+
     return new_outputs
 
 
@@ -256,11 +256,10 @@ def md2html(infile):
     <style type="text/css">
     {css}
     </style>
-    
 </head>
-    
+
 <body>
-{html}
+    {html}
 </body>
 
 </html>
@@ -292,7 +291,7 @@ _multiline_outputs = ['text', 'html', 'svg', 'latex', 'javascript', 'json']
 
 def split_lines_cell(cell):
     """
-    Split lines within a cell as in 
+    Split lines within a cell as in
     IPython.nbformat.v3.rwbase.split_lines
 
     """
@@ -326,11 +325,11 @@ def highlight(src, lang='ipython'):
     from pygments import highlight
     from pygments.lexers import get_lexer_by_name
     from pygments.formatters import HtmlFormatter
-    
+
     if lang == 'ipython':
         lexer = IPythonLexer()
     else:
         lexer = get_lexer_by_name(lang, stripall=True)
-        
+
     return highlight(src, lexer, HtmlFormatter())
 

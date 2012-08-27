@@ -58,7 +58,7 @@ class ConverterRST(Converter):
     @DocInherit
     def _img_lines(self, img_file):
         return ['.. image:: %s' % img_file, '']
-    
+
     @DocInherit
     def render_display_format_text(self, output):
         return rst_directive('.. parsed-literal::', output.text)

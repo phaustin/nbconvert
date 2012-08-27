@@ -55,7 +55,7 @@ class ConverterMarkdown(Converter):
     @DocInherit
     def render_pyout(self, output):
         lines = []
-        
+
         ## if 'text' in output:
         ##     lines.extend(['*Out[%s]:*' % output.prompt_number, ''])
 
@@ -77,7 +77,7 @@ class ConverterMarkdown(Converter):
     @DocInherit
     def _img_lines(self, img_file):
         return ['', '![](%s)' % img_file, '']
-    
+
     @DocInherit
     def render_display_format_text(self, output):
         return [indent(output.text)]
