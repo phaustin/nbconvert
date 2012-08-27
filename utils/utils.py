@@ -1,5 +1,6 @@
 from __future__ import print_function
 from lexers import IPythonLexer
+from IPython.utils.text import indent
 import re
 import subprocess
 #-----------------------------------------------------------------------------

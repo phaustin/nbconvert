@@ -1,5 +1,6 @@
 from converter import Converter
 from decorators import DocInherit
+from utils.utils import markdown2rst, rst_directive, indent, remove_ansi
 
 class ConverterRST(Converter):
     extension = 'rst'
