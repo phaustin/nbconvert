@@ -1,4 +1,4 @@
-from converters.converternotebook import ConverterNotebook
+from converters.notebook import ConverterNotebook
 import nose.tools as nt
 import os, json
 

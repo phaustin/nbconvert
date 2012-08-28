@@ -1,5 +1,5 @@
 from nbconvert import main
-from converters.converterrst import ConverterRST
+from converters.rst import ConverterRST
 import nose.tools as nt
 
 import os
