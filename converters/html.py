@@ -1,3 +1,5 @@
+from __future__ import absolute_import  # avoid markdown clash
+
 from converters.converter import Converter
 from decorators import DocInherit
 import os
