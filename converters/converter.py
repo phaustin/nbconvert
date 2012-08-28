@@ -23,16 +23,17 @@ class Converter(object):
     output = str()
     raw_as_verbatim = False
 
-    def __init__(self, infile):
-        self.infile = infile
-        self.infile_dir, infile_root = os.path.split(infile)
-        infile_root = os.path.splitext(infile_root)[0]
-        files_dir = os.path.join(self.infile_dir, infile_root + '_files')
-        if not os.path.isdir(files_dir):
-            os.mkdir(files_dir)
-        self.infile_root = infile_root
-        self.files_dir = files_dir
-        self.outbase = os.path.join(self.infile_dir, infile_root)
+    def __init__(self, infile=None):
+        if infile :
+            self.infile = infile
+            self.infile_dir, infile_root = os.path.split(infile)
+            infile_root = os.path.splitext(infile_root)[0]
+            files_dir = os.path.join(self.infile_dir, infile_root + '_files')
+            if not os.path.isdir(files_dir):
+                os.mkdir(files_dir)
+            self.infile_root = infile_root
+            self.files_dir = files_dir
+            self.outbase = os.path.join(self.infile_dir, infile_root)
 
     def dispatch(self, cell_type):
         """return cell_type dependent render method,  for example render_code

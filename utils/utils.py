@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import absolute_import
 from lexers import IPythonLexer
 from IPython.utils.text import indent
 from IPython.utils import py3compat
