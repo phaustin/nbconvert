@@ -18,11 +18,11 @@ from IPython.external import argparse
 
 # local
 
-from converters.converterrst import ConverterRST
-from converters.converterhtml import ConverterHTML
-from converters.converterlatex import ConverterLaTeX
-from converters.convertermarkdown import ConverterMarkdown
-from converters.converterpy import ConverterPy
+from converters.rst import ConverterRST
+from converters.html import ConverterHTML
+from converters.latex import ConverterLaTeX
+from converters.markdown import ConverterMarkdown
+from converters.python import ConverterPy
 
 
 #-----------------------------------------------------------------------------
