@@ -61,7 +61,7 @@ class Converter(object):
     def convert(self, cell_separator='\n'):
         lines = []
         lines.extend(self.optional_header())
-        lines.extend(self.body(cell_separator=cell_separator))
+        lines.extend([self.body(cell_separator=cell_separator)])
         lines.extend(self.optional_footer())
         return u'\n'.join(lines)
 
