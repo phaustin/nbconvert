@@ -1,12 +1,24 @@
 from __future__ import absolute_import  # avoid markdown clash
+#------------------------
+# standard import
+#------------------------
+import os
+import io
 
+#------------------------
+# external import
+#------------------------
+from markdown import markdown
+from IPython.utils import path
+from pygments.formatters import HtmlFormatter
+
+#------------------------
+# local import
+#------------------------
 from converters.converter import Converter
 from decorators import DocInherit
-import os
-from IPython.utils import path
-from markdown import markdown
 from utils.utils import highlight, coalesce_streams, ansi2html
-import io
+
 #------------------------
 # decorators
 #------------------------
@@ -44,7 +56,49 @@ def output_container(f):
 
 
 class ConverterHTML(Converter):
+    """ A Converter from Scientific Notebook to Static HTML
+    """
     extension = 'html'
+
+    def __init__(self,*args,**kwargs):
+        super(ConverterHTML, self).__init__(*args,**kwargs)
+        static = os.path.join(path.get_ipython_package_dir(),
+        'frontend', 'html', 'notebook', 'static',
+        )
+        here = os.path.split(os.path.abspath(__file__))[0]
+        css = os.path.join(static, 'css')
+
+        # local css files
+        self.css_files =  [
+            # do we need jquery and prettify?
+            # os.path.join(static, 'jquery', 'css', 'themes', 'base', 'jquery-ui.min.css'),
+            # os.path.join(static, 'prettify', 'prettify.css'),
+            os.path.join(css, 'boilerplate.css'),
+            os.path.join(css, 'fbm.css'),
+            os.path.join(css, 'notebook.css'),
+            os.path.join(css, 'renderedhtml.css'),
+            # our overrides:
+            os.path.join(here, 'css', 'static_html.css'),
+        ]
+
+        # link to external css files
+        self.css_urls = []
+
+        # generated css rules
+        self.css_rules = [
+            HtmlFormatter().get_style_defs('.highlight')
+            ]
+
+        # local, external and generated script
+        self.javascript_files = [
+                os.path.join(here, 'js', 'initmathjax.js')
+                ]
+        self.javascript_urls  = [
+                "https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS_HTML",
+                ]
+        self.javascript_embeded = []
+
+
 
     def in_tag(self, tag, src, attrs={}):
         """Return a list of elements bracketed by the given tag"""
@@ -70,39 +124,30 @@ class ConverterHTML(Converter):
         return ['<div class="prompt output_prompt">%s</div>' % content]
 
     def optional_header(self):
-        from pygments.formatters import HtmlFormatter
 
         header = ['<html>', '<head>']
-
-        static = os.path.join(path.get_ipython_package_dir(),
-        'frontend', 'html', 'notebook', 'static',
-        )
-        here = os.path.split(os.path.abspath(__file__))[0]
-        css = os.path.join(static, 'css')
-        for sheet in [
-            # do we need jquery and prettify?
-            # os.path.join(static, 'jquery', 'css', 'themes', 'base', 'jquery-ui.min.css'),
-            # os.path.join(static, 'prettify', 'prettify.css'),
-            os.path.join(css, 'boilerplate.css'),
-            os.path.join(css, 'fbm.css'),
-            os.path.join(css, 'notebook.css'),
-            os.path.join(css, 'renderedhtml.css'),
-            # our overrides:
-            os.path.join(here, 'css', 'static_html.css'),
-        ]:
+        header.extend(['<meta charset="UTF-8">'])
+        for sheet in self.css_files :
             header.extend(self._stylesheet(sheet))
 
-        # pygments css
-        pygments_css = HtmlFormatter().get_style_defs('.highlight')
-        header.extend(['<meta charset="UTF-8">'])
-        header.extend(self.in_tag('style', pygments_css, dict(type='text/css')))
+        for url in self.css_urls :
+            header.extend(['<link href="%s" rel="stylesheet" type="text/css" media="screen">'%(url)])
+
+        for style in self.css_rules:
+            header.extend(self.in_tag('style', style, dict(type='text/css')))
 
         # TODO: this should be allowed to use local mathjax:
-        header.extend(self.in_tag('script', '', {'type':'text/javascript',
-            'src': '"https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"',
-        }))
-        with io.open(os.path.join(here, 'js', 'initmathjax.js'), encoding='utf-8') as f:
-            header.extend(self.in_tag('script', f.read(), {'type': 'text/javascript'}))
+        for url in self.javascript_urls:
+            header.extend(self.in_tag('script', '', {'type':'text/javascript',
+                'src': "'"+url+"'",
+            }))
+
+        for jsfile in self.javascript_files:
+            with io.open(jsfile, encoding='utf-8') as f:
+                header.extend(self.in_tag('script', f.read(), {'type': 'text/javascript'}))
+
+        for content in self.javascript_embeded:
+            header.extend(self.in_tag('script', content, {'type': 'text/javascript'}))
 
         header.extend(['</head>', '<body>'])
 
